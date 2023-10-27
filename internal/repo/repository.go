@@ -1,18 +1,49 @@
 package repo
 
 import (
+	"WB_Intern_L0/entity"
 	"github.com/jmoiron/sqlx"
 )
 
-type User interface {
+const (
+	ordersTable     = "orders"
+	deliveriesTable = "deliveries"
+	paymentsTable   = "payments"
+	itemsTable      = "items"
+)
+
+type Items interface {
+	CreateItem(item entity.Item, orderUID string) error
+	DeleteItem(itemID int) error
+}
+
+type Payments interface {
+	CreatePayment(payment entity.Payment, orderUID string) error
+	DeletePayment(paymentID int) error
+}
+
+type Deliveries interface {
+	CreateDelivery(delivery entity.Delivery, orderUID string) error
+	DeleteDelivery(deliveryID int) error
+}
+
+type Order interface {
+	CreateOrder(order entity.Order) error
+	DeleteOrder(orderID string) error
 }
 
 type Repository struct {
-	User
+	Order
+	Deliveries
+	Payments
+	Items
 }
 
 func NewRepo(db *sqlx.DB) *Repository {
 	return &Repository{
-		User: NewUserPostgres(db),
+		Order:      NewOrderPostgres(db),
+		Deliveries: NewDeliveryPostgres(db),
+		Payments:   NewPaymentsPostgres(db),
+		Items:      NewItemsPostgres(db),
 	}
 }
