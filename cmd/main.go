@@ -5,6 +5,7 @@ import (
 	"WB_Intern_L0/internal/handler"
 	"WB_Intern_L0/internal/repo"
 	"WB_Intern_L0/internal/usecase"
+	"fmt"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
@@ -43,7 +44,8 @@ func main() {
 	handlers := handler.NewHandler(services)
 	srv := new(WB_Intern_L0.Server)
 
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoute()); err != nil {
+	if err := srv.Run(viper.GetString("ip")+":"+viper.GetString("port"), handlers.InitRoute()); err != nil {
+		fmt.Println(err)
 		zap.L().Error("Error starting server")
 		return
 	}
