@@ -25,9 +25,10 @@ func (i ItemsPostgres) GetItemsByOrderUID(orderUID string) ([]entity.Item, error
 	return items, err
 }
 
-func (i ItemsPostgres) DeleteItem(itemID int) error {
-	//TODO implement me
-	panic("implement me")
+func (i ItemsPostgres) DeleteItem(orderUID int) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE order_uid", itemsTable)
+	_, err := i.db.Exec(query, orderUID)
+	return err
 }
 
 func NewItemsPostgres(db *sqlx.DB) *ItemsPostgres {
