@@ -19,6 +19,15 @@ func (o OrderPostgres) CreateOrder(order entity.Order) error {
 	return nil
 }
 
+func (o OrderPostgres) GetOrders() ([]entity.Order, error) {
+	var orders []entity.Order
+
+	query := fmt.Sprintf("SELECT * FROM %s", ordersTable)
+	err := o.db.Select(&orders, query)
+
+	return orders, err
+}
+
 func (o OrderPostgres) GetOrderByOrderUID(orderUID string) ([]entity.Order, error) {
 	var orders []entity.Order
 

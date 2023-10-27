@@ -31,6 +31,7 @@ type Deliveries interface {
 }
 
 type Order interface {
+	GetOrders() ([]entity.Order, error)
 	CreateOrder(order entity.Order) error
 	DeleteOrder(orderID string) error
 	GetOrderByOrderUID(orderUID string) ([]entity.Order, error)

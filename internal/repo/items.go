@@ -26,7 +26,7 @@ func (i ItemsPostgres) GetItemsByOrderUID(orderUID string) ([]entity.Item, error
 }
 
 func (i ItemsPostgres) DeleteItem(orderUID int) error {
-	query := fmt.Sprintf("DELETE FROM %s WHERE order_uid", itemsTable)
+	query := fmt.Sprintf("DELETE FROM %s WHERE order_uid=$1", itemsTable)
 	_, err := i.db.Exec(query, orderUID)
 	return err
 }
