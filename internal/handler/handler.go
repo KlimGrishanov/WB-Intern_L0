@@ -15,8 +15,8 @@ func NewHandler(services *usecase.UseCase) *Handler {
 
 func (h *Handler) InitRoute() *fiber.App {
 	router := fiber.New()
-	//api := router.Group("/bill-api")
-	//api.Post("/income", )
-
+	api := router.Group("/api")
+	api.Get("/order/:id", h.GetOrderById)
+	api.Post("/order", h.CreateOrder)
 	return router
 }
