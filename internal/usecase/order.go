@@ -11,6 +11,10 @@ type OrderUseCase struct {
 	repo repo.Order
 }
 
+func (o OrderUseCase) GetOrders() ([]entity.Order, error) {
+	return o.repo.GetOrders()
+}
+
 func (o OrderUseCase) NewOrder(order entity.Order) error {
 	return o.repo.CreateOrder(order)
 }

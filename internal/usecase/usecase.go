@@ -7,6 +7,7 @@ import (
 
 type Order interface {
 	NewOrder(order entity.Order) error
+	GetOrders() ([]entity.Order, error)
 	GetOrderByOrderUID(orderUID string) (entity.Order, error)
 }
 
