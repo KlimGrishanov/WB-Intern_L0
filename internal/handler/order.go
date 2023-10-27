@@ -2,12 +2,49 @@ package handler
 
 import (
 	"WB_Intern_L0/entity"
+	"encoding/json"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )
 
 func (h *Handler) GetOrderById(c *fiber.Ctx) error {
-	return c.SendString("I'm a GET request!")
+	id := c.Params("id")
+
+	delivery, err := h.services.GetDeliveryByOrderUID(id)
+	if err != nil {
+		zap.L().Error(err.Error())
+		return err
+	}
+
+	payment, err := h.services.GetPaymentByOrderUID(id)
+	if err != nil {
+		zap.L().Error(err.Error())
+		return err
+	}
+
+	itemsArr, err := h.services.GetItemsByOrderUID(id)
+	if err != nil {
+		zap.L().Error(err.Error())
+		return err
+	}
+
+	order, err := h.services.GetOrderByOrderUID(id)
+	if err != nil {
+		zap.L().Error(err.Error())
+		return err
+	}
+
+	order.Items = itemsArr
+	order.Payment = payment
+	order.Delivery = delivery
+	deliveryJSON, err := json.Marshal(order)
+
+	if err != nil {
+		zap.L().Error(err.Error())
+		return err
+	}
+
+	return c.Send(deliveryJSON)
 }
 
 func (h *Handler) CreateOrder(c *fiber.Ctx) error {

@@ -16,8 +16,16 @@ func (o OrderPostgres) CreateOrder(order entity.Order) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
+}
+
+func (o OrderPostgres) GetOrderByOrderUID(orderUID string) ([]entity.Order, error) {
+	var orders []entity.Order
+
+	query := fmt.Sprintf("SELECT * FROM %s WHERE order_uid=$1", ordersTable)
+	err := o.db.Select(&orders, query, orderUID)
+
+	return orders, err
 }
 
 func (o OrderPostgres) DeleteOrder(orderID string) error {
