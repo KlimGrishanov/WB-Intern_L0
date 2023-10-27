@@ -7,18 +7,22 @@ import (
 
 type Order interface {
 	NewOrder(order entity.Order) error
+	GetOrderByOrderUID(orderUID string) (entity.Order, error)
 }
 
 type Payment interface {
 	NewPayment(payment entity.Payment, orderID string) error
+	GetPaymentByOrderUID(orderUID string) (entity.Payment, error)
 }
 
 type Delivery interface {
 	NewDelivery(delivery entity.Delivery, orderID string) error
+	GetDeliveryByOrderUID(orderUID string) (entity.Delivery, error)
 }
 
 type Items interface {
-	NewItem(delivery entity.Item, orderID string) error
+	NewItem(item entity.Item, orderID string) error
+	GetItemsByOrderUID(orderUID string) ([]entity.Item, error)
 }
 
 type UseCase struct {
