@@ -25,9 +25,10 @@ func (d DeliveriesPostgres) GetDeliveryByOrderUID(orderUID string) ([]entity.Del
 	return delivery, err
 }
 
-func (d DeliveriesPostgres) DeleteDelivery(deliveryID int) error {
-	//TODO implement me
-	panic("implement me")
+func (d DeliveriesPostgres) DeleteDelivery(orderUID int) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE order_uid", deliveriesTable)
+	_, err := d.db.Exec(query, orderUID)
+	return err
 }
 
 func NewDeliveryPostgres(db *sqlx.DB) *DeliveriesPostgres {
