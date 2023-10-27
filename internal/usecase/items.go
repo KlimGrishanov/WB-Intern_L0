@@ -13,6 +13,10 @@ func (p ItemsUseCase) NewItem(item entity.Item, orderID string) error {
 	return p.repo.CreateItem(item, orderID)
 }
 
+func (p ItemsUseCase) GetItemsByOrderUID(orderUID string) ([]entity.Item, error) {
+	return p.repo.GetItemsByOrderUID(orderUID)
+}
+
 func NewItemsUseCase(repo repo.Items) *ItemsUseCase {
 	return &ItemsUseCase{repo: repo}
 }

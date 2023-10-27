@@ -16,6 +16,15 @@ func (i ItemsPostgres) CreateItem(item entity.Item, orderUID string) error {
 	return err
 }
 
+func (i ItemsPostgres) GetItemsByOrderUID(orderUID string) ([]entity.Item, error) {
+	var items []entity.Item
+
+	query := fmt.Sprintf("SELECT * FROM %s WHERE order_uid=$1", itemsTable)
+	err := i.db.Select(&items, query, orderUID)
+
+	return items, err
+}
+
 func (i ItemsPostgres) DeleteItem(itemID int) error {
 	//TODO implement me
 	panic("implement me")
