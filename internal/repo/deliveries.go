@@ -16,6 +16,15 @@ func (d DeliveriesPostgres) CreateDelivery(delivery entity.Delivery, orderUID st
 	return err
 }
 
+func (d DeliveriesPostgres) GetDeliveryByOrderUID(orderUID string) ([]entity.Delivery, error) {
+	var delivery []entity.Delivery
+
+	query := fmt.Sprintf("SELECT * FROM %s WHERE order_uid=$1", deliveriesTable)
+	err := d.db.Select(&delivery, query, orderUID)
+
+	return delivery, err
+}
+
 func (d DeliveriesPostgres) DeleteDelivery(deliveryID int) error {
 	//TODO implement me
 	panic("implement me")
