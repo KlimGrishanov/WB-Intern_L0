@@ -10,33 +10,12 @@ import (
 func (h *Handler) GetOrderById(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	delivery, err := h.services.GetDeliveryByOrderUID(id)
-	if err != nil {
-		zap.L().Error(err.Error())
-		return err
+	order, isExist := h.cache.GetOrder(id)
+	if isExist == false {
+		zap.L().Error("order doesn't exist")
+		return c.Send([]byte("order doesn't exist"))
 	}
 
-	payment, err := h.services.GetPaymentByOrderUID(id)
-	if err != nil {
-		zap.L().Error(err.Error())
-		return err
-	}
-
-	itemsArr, err := h.services.GetItemsByOrderUID(id)
-	if err != nil {
-		zap.L().Error(err.Error())
-		return err
-	}
-
-	order, err := h.services.GetOrderByOrderUID(id)
-	if err != nil {
-		zap.L().Error(err.Error())
-		return err
-	}
-
-	order.Items = itemsArr
-	order.Payment = payment
-	order.Delivery = delivery
 	deliveryJSON, err := json.Marshal(order)
 
 	if err != nil {
@@ -54,6 +33,8 @@ func (h *Handler) CreateOrder(c *fiber.Ctx) error {
 		zap.L().Error(err.Error())
 		return err
 	}
+
+	h.cache.NewOrder(*order)
 
 	err := h.services.NewOrder(*order)
 	if err != nil {
