@@ -16,6 +16,15 @@ func (p PaymentsPostgres) CreatePayment(payment entity.Payment, orderUID string)
 	return err
 }
 
+func (p PaymentsPostgres) GetPaymentsByOrderUID(orderUID string) ([]entity.Payment, error) {
+	var payments []entity.Payment
+
+	query := fmt.Sprintf("SELECT * FROM %s WHERE transaction=$1", paymentsTable)
+	err := p.db.Select(&payments, query, orderUID)
+
+	return payments, err
+}
+
 func (p PaymentsPostgres) DeletePayment(paymentID int) error {
 	query := fmt.Sprintf("DELETE FROM %s WHERE order_uid", paymentsTable)
 	_, err := p.db.Exec(query, paymentID)
