@@ -9,9 +9,9 @@ type Server struct {
 	httpServer *fiber.App
 }
 
-func (s *Server) Run(port string, handler *fiber.App) error {
+func (s *Server) Run(addr string, handler *fiber.App) error {
 	s.httpServer = handler
-	return s.httpServer.Listen(port)
+	return s.httpServer.Listen(addr)
 }
 func (s *Server) Shutdown(ctx context.Context) error {
 	return s.httpServer.ShutdownWithContext(ctx)
