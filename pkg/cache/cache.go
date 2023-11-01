@@ -17,10 +17,12 @@ func NewCache(services *usecase.UseCase) *CacheService {
 
 func (s *CacheService) NewOrder(order entity.Order) {
 	s.Cache[order.OrderUid] = order
+	zap.L().Info("Cache: Add new Order")
 }
 
 func (s *CacheService) GetOrder(orderUID string) (entity.Order, bool) {
 	val, isExist := s.Cache[orderUID]
+	zap.L().Info("Cache: Send order from cache")
 	return val, isExist
 }
 
@@ -49,6 +51,6 @@ func (s *CacheService) LoadDataFromDatabase() error {
 		orderArr[i].Items = Items
 		s.Cache[orderArr[i].OrderUid] = orderArr[i]
 	}
-
+	zap.L().Info("Cache: Load Cache from Database -> Success")
 	return nil
 }

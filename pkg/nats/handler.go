@@ -24,7 +24,7 @@ func (nc *Nats) GetOrderByIdNATS(m *nats.Msg) {
 			nc.NATSServer.Publish("OrderInfo", orderMsg)
 		}
 	}
-
+	zap.L().Info("Send Order to NATS Channel")
 }
 
 func (nc *Nats) CreateOrderNATS(m *nats.Msg) {
@@ -59,4 +59,6 @@ func (nc *Nats) CreateOrderNATS(m *nats.Msg) {
 			zap.L().Error(err.Error())
 		}
 	}
+
+	zap.L().Info("Get Order by NATS Channel")
 }

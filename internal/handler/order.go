@@ -23,6 +23,8 @@ func (h *Handler) GetOrderById(c *fiber.Ctx) error {
 		return err
 	}
 
+	zap.L().Info("GET: Order by OrderID")
+
 	return c.Send(deliveryJSON)
 }
 
@@ -61,6 +63,8 @@ func (h *Handler) CreateOrder(c *fiber.Ctx) error {
 			return err
 		}
 	}
+
+	zap.L().Info("POST: Add Order")
 
 	c.SendStatus(200)
 	return nil

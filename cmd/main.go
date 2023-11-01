@@ -74,7 +74,6 @@ func main() {
 
 	// Web Setup
 	srv := new(WB_Intern_L0.Server)
-
 	if err := srv.Run(viper.GetString("ip")+":"+viper.GetString("port"), handlers.InitRoute()); err != nil {
 		fmt.Println(err)
 		zap.L().Error("Error starting server")
